@@ -5,7 +5,7 @@ import PopupAddCard from "./PopupAddCard.js";
 import PopupRemoveCard from "./PopupRemoveCard.js";
 import api from "../utils/Api.js";
 import Card from "./Card.js";
-import PopupZoomImage from "./PopupZoomImage.js";
+import ImagePopup from "./ImagePopup.js";
 
 function Main(props) {
   // переменные состояния
@@ -125,7 +125,7 @@ function Main(props) {
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
       />
-      <PopupZoomImage
+      <ImagePopup
         isOpen={isZoomImagePopupOpen}
         card={selectedCard}
         onClose={closeAllPopups}
