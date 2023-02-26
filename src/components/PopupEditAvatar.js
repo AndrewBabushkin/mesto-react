@@ -15,7 +15,7 @@ function PopupEditAvatar({ isOpen, onClose }) {
           type="url"
           className="popup__input-field popup__input-field_type_avatar"
           name="avatar"
-          value=""
+          defaultValue=""
           placeholder="Добавить фотографию"
           required
           id="avatar-input"

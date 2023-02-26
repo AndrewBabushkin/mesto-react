@@ -14,7 +14,7 @@ function PopupWithForm({ children, name, title, textButton, isOpen, onClose }) {
         <form
           className={`popup__form-edit popup__form-${name}`}
           name={`form${name}`}
-          novalidate
+          noValidate
         >
           {children}
           <button

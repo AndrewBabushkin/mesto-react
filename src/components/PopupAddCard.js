@@ -15,19 +15,19 @@ function PopupAddCard({ isOpen, onClose }) {
           type="text"
           className="popup__input-field popup__input-field_type_title"
           name="name"
-          value=""
+          defaultValue=""
           placeholder="Название места"
           required
           id="title-input"
-          minlength="2"
-          maxlength="30"
+          minLength="2"
+          maxLength="30"
         />
         <span className="title-input-error popup__input-error"></span>
         <input
           type="url"
           className="popup__input-field popup__input-field_type_image"
           name="link"
-          value=""
+          defaultValue=""
           placeholder="Добавить фотографию"
           required
           id="image-input"

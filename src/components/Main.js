@@ -1,79 +1,24 @@
-import React, { useEffect, useState } from "react";
-import PopupEditProfile from "./PopupEditProfile.js";
-import PopupEditAvatar from "./PopupEditAvatar.js";
-import PopupAddCard from "./PopupAddCard.js";
-import PopupRemoveCard from "./PopupRemoveCard.js";
-import api from "../utils/Api.js";
 import Card from "./Card.js";
-import ImagePopup from "./ImagePopup.js";
 
-function Main(props) {
-  // переменные состояния
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [isZoomImagePopupOpen, setIsZoomImagePopupOpen] = useState(false);
-  const [userName, setUserName] = useState("");
-  const [userDescription, setUserDescription] = useState("");
-  const [userAvatar, setUserAvatar] = useState("");
-
-  const [cards, setCard] = useState([]);
-
-  const [selectedCard, setSelectedCard] = useState({});
-
-  // отрытие попапов
-  const handleEditProfileClick = () => {
-    setIsEditProfilePopupOpen(true);
-  };
-  const handleAddCardClick = () => {
-    setIsAddPlacePopupOpen(true);
-  };
-  const handleEditAvatarClick = () => {
-    setIsEditAvatarPopupOpen(true);
-  };
-  const handleCardClick = (data) => {
-    setSelectedCard(data);
-    setIsZoomImagePopupOpen(true);
-  };
-
-  // закрытие попапов
-  const closeAllPopups = () => {
-    setIsEditProfilePopupOpen(false);
-    setIsAddPlacePopupOpen(false);
-    setIsEditAvatarPopupOpen(false);
-    setSelectedCard({});
-    setIsZoomImagePopupOpen(false);
-  };
-
-  useEffect(() => {
-    api
-      .getUserInfo()
-      .then((data) => {
-        setUserName(data.name);
-        setUserDescription(data.about);
-        setUserAvatar(data.avatar);
-      })
-      .catch((err) => console.log(`Error: ${err}`));
-  });
-
-  useEffect(() => {
-    api
-      .getInitialCards()
-      .then((data) => {
-        setCard(data);
-      })
-      .catch((err) => console.log(`Error: ${err}`));
-  }, []);
-
+function Main({
+  onEditProfile,
+  onAddPlace,
+  onEditAvatar,
+  userName,
+  userDescription,
+  userAvatar,
+  cards,
+  handleCardClick,
+}) {
   return (
     <>
       <main>
         <section className="profile">
           <div className="profile__avatar-group">
-            <batton
+            <button
               className="profile__button profile__button_type_avatar"
-              onClick={handleEditAvatarClick}
-            ></batton>
+              onClick={onEditAvatar}
+            ></button>
             <img
               src={userAvatar}
               alt="Фотография профиля"
@@ -87,7 +32,7 @@ function Main(props) {
               <button
                 className="profile__button profile__button_type_edit"
                 type="button"
-                onClick={handleEditProfileClick}
+                onClick={onEditProfile}
               ></button>
             </div>
             <p className="profile__profession">{userDescription}</p>
@@ -96,7 +41,7 @@ function Main(props) {
             className="profile__button profile__button_type_add"
             type="button"
             aria-label="Довавить фотографию"
-            onClick={handleAddCardClick}
+            onClick={onAddPlace}
           ></button>
         </section>
 
@@ -116,22 +61,8 @@ function Main(props) {
           </ul>
         </section>
       </main>
-      <PopupEditProfile
-        isOpen={isEditProfilePopupOpen}
-        onClose={closeAllPopups}
-      />
-      <PopupAddCard isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} />
-      <PopupEditAvatar
-        isOpen={isEditAvatarPopupOpen}
-        onClose={closeAllPopups}
-      />
-      <ImagePopup
-        isOpen={isZoomImagePopupOpen}
-        card={selectedCard}
-        onClose={closeAllPopups}
-      />
     </>
   );
 }
-
+//
 export default Main;

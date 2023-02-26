@@ -15,24 +15,24 @@ function PopupEditProfile({ isOpen, onClose }) {
           type="text"
           className="popup__input-field popup__input-field_type_name"
           name="editName"
-          value="Имя"
+          defaultValue="Имя"
           placeholder="Ваше имя"
           required
           id="name-input"
-          minlength="2"
-          maxlength="40"
+          minLength="2"
+          maxLength="40"
         />
         <span className="name-input-error popup__input-error"></span>
         <input
           type="text"
           className="popup__input-field popup__input-field_type_profession"
           name="editProfession"
-          value="Профессия"
+          defaultValue="Профессия"
           placeholder="Ваш род деятельности"
           required
           id="profession-input"
-          minlength="2"
-          maxlength="200"
+          minLength="2"
+          maxLength="200"
         />
         <span className="profession-input-error popup__input-error"></span>
       </PopupWithForm>
