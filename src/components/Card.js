@@ -1,11 +1,46 @@
-function Card({ link, title, like, onCardClick }) {
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { useContext } from "react";
+
+function Card({
+  cardId,
+  link,
+  title,
+  likeLength,
+  ownerId,
+  likes,
+  onCardClick,
+  onCardLike,
+  onCardDelete,
+}) {
   function handleClick() {
     onCardClick({ link, title });
   }
+
+  function handleLikeClick() {
+    onCardLike({ likes, cardId });
+  }
+
+  function handleDeleteClick() {
+    onCardDelete({ cardId });
+  }
+  const currentUser = useContext(CurrentUserContext);
+
+  const isOwn = ownerId === currentUser._id;
+  const isLiked = likes.some((i) => i._id === currentUser._id);
+
+  const cardLikeButtonClassName = `card__heart-button ${
+    isLiked && "card__heart-button_active"
+  }`;
+
   return (
     <li className="gallery__list-item">
       <article className="card">
-        <button className="card__delete-btn"></button>
+        {isOwn && (
+          <button
+            className="card__delete-btn"
+            onClick={handleDeleteClick}
+          ></button>
+        )}
         <img
           src={link}
           alt={`Фотография ${title}`}
@@ -17,10 +52,11 @@ function Card({ link, title, like, onCardClick }) {
           <div className="card__heart-group">
             <button
               type="button"
-              className="card__heart-button"
+              onClick={handleLikeClick}
+              className={cardLikeButtonClassName}
               aria-label="Поставить лайк"
             ></button>
-            <p className="card__like-number">{like}</p>
+            <p className="card__like-number">{likeLength}</p>
           </div>
         </div>
       </article>

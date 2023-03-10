@@ -23,8 +23,8 @@ class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        name: data.editName,
-        about: data.editProfession,
+        name: data.name,
+        about: data.about,
       }),
     }).then((response) => this._checkResponse(response));
   }
@@ -54,6 +54,14 @@ class Api {
         link: data.link,
       }),
     }).then((response) => this._checkResponse(response));
+  }
+
+  changeLikeCardStatus(cardId, isLiked) {
+    if (isLiked) {
+      return this.deleteLikeCard(cardId);
+    } else {
+      return this.setLikeCard(cardId);
+    }
   }
   //Удаление карточки
   deleteCard(cardId) {

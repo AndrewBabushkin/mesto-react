@@ -1,15 +1,17 @@
 import Card from "./Card.js";
-
+import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
+import { useContext } from "react";
 function Main({
   onEditProfile,
   onAddPlace,
   onEditAvatar,
-  userName,
-  userDescription,
-  userAvatar,
   cards,
   handleCardClick,
+  handleCardLike,
+  handleCardDelete,
 }) {
+  const currentUser = useContext(CurrentUserContext);
+
   return (
     <>
       <main>
@@ -20,7 +22,7 @@ function Main({
               onClick={onEditAvatar}
             ></button>
             <img
-              src={userAvatar}
+              src={currentUser.avatar}
               alt="Фотография профиля"
               className="profile__avatar"
             />
@@ -28,14 +30,14 @@ function Main({
 
           <div className="profile__info">
             <div className="profile__name-group">
-              <h1 className="profile__name">{userName}</h1>
+              <h1 className="profile__name">{currentUser.name}</h1>
               <button
                 className="profile__button profile__button_type_edit"
                 type="button"
                 onClick={onEditProfile}
               ></button>
             </div>
-            <p className="profile__profession">{userDescription}</p>
+            <p className="profile__profession">{currentUser.about}</p>
           </div>
           <button
             className="profile__button profile__button_type_add"
@@ -53,8 +55,13 @@ function Main({
                   key={data._id}
                   link={data.link}
                   title={data.name}
-                  like={data.likes.length}
+                  likeLength={data.likes.length}
+                  ownerId={data.owner._id}
                   onCardClick={handleCardClick}
+                  likes={data.likes}
+                  onCardLike={handleCardLike}
+                  cardId={data._id}
+                  onCardDelete={handleCardDelete}
                 />
               );
             })}

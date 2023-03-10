@@ -1,7 +1,25 @@
-import React from "react";
+import { useState } from "react";
 import PopupWithForm from "./PopupWithForm";
 
-function PopupAddCard({ isOpen, onClose }) {
+function PopupAddCard({ isOpen, onClose, onAddPlace }) {
+  const [cardName, setCardName] = useState("");
+  const [cardLink, setLink] = useState("");
+
+  function handleChangeCardName(event) {
+    setCardName(event.target.value);
+  }
+
+  function handleChangeCardLink(event) {
+    setLink(event.target.value);
+  }
+  function handleSubmit(event) {
+    event.preventDefault();
+    onAddPlace({
+      name: cardName,
+      link: cardLink,
+    });
+  }
+
   return (
     <>
       <PopupWithForm
@@ -10,12 +28,14 @@ function PopupAddCard({ isOpen, onClose }) {
         textButton="Создать"
         isOpen={isOpen}
         onClose={onClose}
+        onSubmit={handleSubmit}
       >
         <input
           type="text"
           className="popup__input-field popup__input-field_type_title"
           name="name"
-          defaultValue=""
+          onChange={handleChangeCardName}
+          value={cardName || ""}
           placeholder="Название места"
           required
           id="title-input"
@@ -27,7 +47,8 @@ function PopupAddCard({ isOpen, onClose }) {
           type="url"
           className="popup__input-field popup__input-field_type_image"
           name="link"
-          defaultValue=""
+          onChange={handleChangeCardLink}
+          value={cardLink || ""}
           placeholder="Добавить фотографию"
           required
           id="image-input"
