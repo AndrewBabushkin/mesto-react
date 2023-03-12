@@ -1,5 +1,5 @@
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 function Card({
   cardId,

@@ -16,7 +16,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isZoomImagePopupOpen, setIsZoomImagePopupOpen] = useState(false);
 
-  const [currentUser, setCurrentUser] = useState("");
+  const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
 
   const [selectedCard, setSelectedCard] = useState({});
@@ -45,24 +45,16 @@ function App() {
     setIsZoomImagePopupOpen(false);
   };
   // заполнение информации профиля с сервера.
+
   useEffect(() => {
-    api
-      .getUserInfo()
-      .then((data) => {
+    Promise.all([api.getInitialCards(), api.getUserInfo()]).then(
+      ([data, user]) => {
+        // console.log(user);
         // console.log(data);
-        setCurrentUser(data);
-      })
-      .catch((err) => console.log(`Error: ${err}`));
-  });
-  // загурзка карточек с сервера.
-  useEffect(() => {
-    api
-      .getInitialCards()
-      .then((data) => {
         setCards(data);
-        setCurrentUser(data);
-      })
-      .catch((err) => console.log(`Error: ${err}`));
+        setCurrentUser(user);
+      }
+    );
   }, []);
 
   // обработка лайков
@@ -78,9 +70,8 @@ function App() {
   function handleCardDelete({ cardId }) {
     api
       .deleteCard(cardId)
-      .then((data) => {
-        const newArrayCards = cards.filter((c) => c._id !== cardId);
-        setCards(newArrayCards);
+      .then(() => {
+        setCards((state) => state.filter((c) => c._id !== cardId));
       })
       .catch((err) => console.log(`Error: ${err}`));
   }
